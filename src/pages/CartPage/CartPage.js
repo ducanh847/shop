@@ -27,6 +27,7 @@ const CartPage = (props) => {
     });
     localStorage.setItem("SUM", JSON.stringify(total));
   };
+  // day la dong em chinh sua
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("CART"))
     let total = 0
