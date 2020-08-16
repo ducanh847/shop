@@ -15,22 +15,29 @@ import ScrollToTop from "./ScrollToTop";
 import ProductDetailPage from "./pages/ProductPage/ProductDetailPage";
 
 function App() {
+  const [count, setCount] = useState()
+  const callBackCount = (data) => {
+    setCount(data)
+  }
   return (
     <Router>
       <ScrollToTop />
-      <Nav />
+      <Nav count={count}/>
       <main className="main">
         <Switch>
           <Route
             path="/"
             exact={true}
             component={() => (
-              <HomePage/>
+              <HomePage parentCallback={callBackCount}/>
             )}
           />
           <Route path="/product" component={ProductPage} />
           <Route path="/productdetail/:id" component={ProductDetailPage} />
-          <Route path="/cart" component={CartPage} />
+          <Route
+            path="/cart"
+            component={() => <CartPage parentCallback={callBackCount} />}
+          />
           <Route path="/account" component={CustomerPage} />
           <Route path="/admin" component={AdminPage} />
           <Route path="/aboutus" component={NotFound} />

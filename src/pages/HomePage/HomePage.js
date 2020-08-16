@@ -7,10 +7,13 @@ import Axios from "axios";
 
 const HomePage = (props) => {
   const [products, setProducts] = useState([]);
+  const {parentCallback} = props;
   useEffect(() => {
     Axios.get(`http://localhost:3000/products`).then((res) => {
       setProducts(res.data);
     });
+    let count = localStorage.getItem("COUNT");
+    count && parentCallback(count)
   }, []);
   return (
     <div className="container homepage">

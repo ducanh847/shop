@@ -5,10 +5,13 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Toast } from "react-bootstrap";
 
 const CartPage = (props) => {
+  const {parentCallback} = props;
   const [dataInitial, setDataInitial] = useState([]);
   const sum = JSON.parse(localStorage.getItem("SUM"));
   const [dataAfterUpdate, setDataAfterUpdate] = useState(dataInitial ? dataInitial : []);
   const [total, setTotal] = useState(sum ? sum : 0);
+  const [count, setCount] = useState(0);
+
 
   const formatNumber = (num) => {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -26,10 +29,11 @@ const CartPage = (props) => {
       localStorage.setItem("CART", JSON.stringify(dataAfterUpdate));
     });
     localStorage.setItem("SUM", JSON.stringify(total));
+    window.location.reload()
   };
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("CART"))
-    let total = 0
+    let total = 0;
     data.map((x) => {
       total += x.quanlity * x.price;
     });
@@ -37,6 +41,16 @@ const CartPage = (props) => {
     setDataInitial(data)
     localStorage.setItem("SUM", JSON.stringify(total));
   }, [])
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("CART"))
+    let count = 0;
+    data.map((x) => {
+      count += x.quanlity;
+      setCount(count);
+    });
+    parentCallback(count)
+    localStorage.setItem("COUNT", JSON.stringify(count));
+  }, [count])
   return (
     <div className="container cartpage">
       <Row className="cart-main">
